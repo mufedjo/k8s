@@ -1,4 +1,4 @@
-{{- if .Values.natsbox.enabled }}
+{{- if .Values.natsbox.enabled }} #change
 {{- include "nats.fixImage" .Values.natsbox -}}
 ---
 apiVersion: apps/v1
@@ -13,7 +13,7 @@ metadata:
     {{- tpl (toYaml .Values.natsbox.additionalLabels) $ | nindent 4 }}
     {{- end }}
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: {{ include "nats.fullname" . }}-box
@@ -115,3 +115,32 @@ spec:
           mountPath: /etc/nats-certs/clients/{{ $secretName }}
         {{- end }}
 {{- end }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nats-server
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nats-server
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nats-server-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nats-server
+subjects:
+- kind: ServiceAccount
+  name: nats-server
+  namespace: default

@@ -1,0 +1,36 @@
+{{- if (and .Values.nats.avertise .Values.nats.externalAccess) }}
+nats:
+  serviceAccount: "nats-server"
+  bootconfig:
+    image: natsio/nats-boot-config:latest
+    pullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nats-server
+  namespace: default
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nats-server
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nats-server-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nats-server
+subjects:
+- kind: ServiceAccount
+  name: nats-server
+  namespace: default
+{{- end }}

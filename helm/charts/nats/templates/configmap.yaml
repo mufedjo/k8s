@@ -16,9 +16,7 @@ data:
 
     {{- if .Values.nats.config }}
     ###########
-    #         #
     # Imports #
-    #         #
     ###########
     {{- range .Values.nats.config }}
     include ./{{ .name }}/{{ .name }}.conf
@@ -26,9 +24,7 @@ data:
     {{- end }}
 
     ###############
-    #             #
     # Monitoring  #
-    #             #
     ###############
     http: 8222
     server_name: {{- if .Values.nats.serverNamePrefix  }}$SERVER_NAME{{- else }}$POD_NAME{{- end }}
@@ -43,9 +39,7 @@ data:
 
     {{- if .Values.nats.tls }}
     #####################
-    #                   #
     # TLS Configuration #
-    #                   #
     #####################
     {{- with .Values.nats.tls }}
     {{- $nats_tls := merge (dict) . }}
@@ -61,9 +55,7 @@ data:
 
     {{- if .Values.nats.jetstream.enabled }}
     ###################################
-    #                                 #
     # NATS JetStream                  #
-    #                                 #
     ###################################
     jetstream {
       {{- if .Values.nats.jetstream.encryption }}
@@ -103,9 +95,7 @@ data:
     {{- end }}
     {{- if .Values.mqtt.enabled }}
     ###################################
-    #                                 #
     # NATS MQTT                       #
-    #                                 #
     ###################################
     mqtt {
       port: 1883
@@ -127,9 +117,7 @@ data:
 
     {{- if .Values.cluster.enabled }}
     ###################################
-    #                                 #
     # NATS Full Mesh Clustering Setup #
-    #                                 #
     ###################################
     cluster {
       port: 6222
@@ -186,9 +174,7 @@ data:
 
     {{- if or .Values.leafnodes.enabled .Values.leafnodes.remotes }}
     #################
-    #               #
     # NATS Leafnode #
-    #               #
     #################
     leafnodes {
       {{- if .Values.leafnodes.enabled }}
@@ -285,10 +271,8 @@ data:
     {{- end }}
 
     {{- if .Values.gateway.enabled }}
-    #################
-    #               #
+    ################# 
     # NATS Gateways #
-    #               #
     #################
     gateway {
       name: {{ .Values.gateway.name }}
