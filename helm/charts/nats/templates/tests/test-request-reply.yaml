@@ -9,8 +9,8 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-  - name: nats-box
-    image: synadia/nats-box
+  - name: nats
+    image: synadia/nats
     env:
     - name: NATS_HOST
       value: {{ template "nats.fullname" . }}

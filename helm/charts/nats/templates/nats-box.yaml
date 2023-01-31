@@ -4,10 +4,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nats.fullname" . }}-box
+  name: {{ include "nats.fullname" . }}
   namespace: {{ include "nats.namespace" . }}
   labels:
-    app: {{ include "nats.fullname" . }}-box
+    app: {{ include "nats.fullname" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     {{- if .Values.natsbox.additionalLabels }}
     {{- tpl (toYaml .Values.natsbox.additionalLabels) $ | nindent 4 }}
@@ -16,11 +16,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: {{ include "nats.fullname" . }}-box
+      app: {{ include "nats.fullname" . }}
   template:
     metadata:
       labels:
-        app: {{ include "nats.fullname" . }}-box
+        app: {{ include "nats.fullname" . }}
         {{- if .Values.natsbox.podLabels }}
         {{- tpl (toYaml .Values.natsbox.podLabels) $ | nindent 8 }}
         {{- end }}
@@ -66,7 +66,7 @@ spec:
       automountServiceAccountToken: {{ .Values.natsbox.automountServiceAccountToken }}
       {{- end }}
       containers:
-      - name: nats-box
+      - name: nats
         image: {{ include "nats.image" .Values.natsbox.image }}
         imagePullPolicy: {{ .Values.natsbox.image.pullPolicy }}
         {{- if .Values.natsbox.securityContext }}

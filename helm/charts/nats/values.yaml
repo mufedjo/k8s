@@ -40,8 +40,8 @@ nats:
   securityContext: {}
   externalAccess: true #change
   # externalAccess: false
-  # advertise: false #change
-  advertise: true
+  advertise: false #change
+  # advertise: true
   serviceAccount:
     create: true
     annotations: {}
@@ -138,7 +138,8 @@ natsbox:
   image:
     repository: natsio/nats-box
     tag: latest #change
-    # tag: 0.13.3
+    # repository: https://hub.docker.com/r/synadia/nats-server #change
+    # tag: new
     pullPolicy: IfNotPresent
   securityContext: {}
   additionalLabels: {}
@@ -207,28 +208,5 @@ podManagementPolicy: Parallel
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: nats-server
-  namespace: default
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: nats-server
-rules:
-- apiGroups: [""]
-  resources:
-  - nodes
-  verbs: ["get"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: nats-server-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: nats-server
-subjects:
-- kind: ServiceAccount
   name: nats-server
   namespace: default

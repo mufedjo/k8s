@@ -1,9 +1,4 @@
 {{- if (and .Values.nats.avertise .Values.nats.externalAccess) }}
-nats:
-  serviceAccount: "nats-server"
-  bootconfig:
-    image: natsio/nats-boot-config:latest
-    pullPolicy: IfNotPresent
 ---
 apiVersion: v1
 kind: ServiceAccount
